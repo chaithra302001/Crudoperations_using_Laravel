@@ -1,0 +1,72 @@
+
+.form-container {
+    width: 90%; /* Adjust the percentage to make the form wider */
+    margin: 0 auto;
+}
+
+.form-container {
+        width: 90%; /* Adjust the percentage to make the form wider */
+        margin: 0 auto;
+}
+
+.fa-user-circle {
+        color: #007bff; /* You can change the color of the profile icon */
+}
+.text-danger {
+    color: red;
+    font-weight: bold;
+}
+
+.datepicker {
+    background-color: #a725aa !important;
+}
+
+
+/* Hover effect for calendar days */
+.datepicker table tr td.day:hover {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+
+
+
+.form-select.selectpicker {
+    border: 2px solid #ced4da;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+/* When option is selected, change color */
+.form-select.selectpicker.selected {
+    border-color: #007bff !important;
+    background-color: #e9f2ff !important;
+}
+/* Ensures error messages are red */
+.parsley-errors-list {
+    color: rgb(0, 213, 255);
+    font-size: 14px;
+    margin-top: 5px;
+    list-style: none;
+    padding: 0;
+}
+
+input.parsley-success {
+    border-color: white !important; /* You can change this */
+}
+
+input.parsley-error {
+    border-color:white !important; /* You can change this */
+}
+.form-control {
+    background-color: white !important;
+}
+
+/* Remove the green border color on focus */
+.form-control:focus {
+    border-color: #ced4da !important; /* You can change this to any color you prefer */
+    box-shadow: none !important; /* This removes the box-shadow effect */
+}
+
+input, select, textarea {
+    background-color: white !important;
+}
