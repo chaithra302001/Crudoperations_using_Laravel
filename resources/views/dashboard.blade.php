@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<h3>Welcome</h3>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
