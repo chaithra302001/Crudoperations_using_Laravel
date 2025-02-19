@@ -1,4 +1,87 @@
 
+/* General styling for the login page */
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+/* Styling for input fields */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+/* Password visibility toggle button */
+.input-group .btn {
+    border-radius: 8px;
+    border-left: none;
+}
+
+.input-group .btn:hover {
+    background-color: #ddd;
+}
+
+/* Submit button */
+.btn-success {
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+/* Ensure input group styling */
+.position-relative {
+    position: relative;
+}
+
+#jobsList table {
+    width: 100%; /* Makes the table take full width */
+}
+
+
+
+
+
+/* Register link */
+.text-muted a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.text-muted a:hover {
+    text-decoration: underline;
+}
 .form-container {
     width: 90%; /* Adjust the percentage to make the form wider */
     margin: 0 auto;
@@ -70,3 +153,4 @@ input.parsley-error {
 input, select, textarea {
     background-color: white !important;
 }
+

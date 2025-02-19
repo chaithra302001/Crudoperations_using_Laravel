@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="login-container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
@@ -10,38 +10,42 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}" id="loginForm" novalidate>
-                        @csrf
+                <form method="POST" action="{{ route('login') }}" id="loginForm" novalidate>
+                    @csrf
 
-                        <!-- Email Field -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('Email') }}</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                   name="email" value="{{ old('email') }}" required autofocus>
-                            <div class="invalid-feedback">Please enter a valid email.</div>
-                        </div>
-
-                        <!-- Password Field -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                                   name="password" required>
-                            <div class="invalid-feedback">Password is required.</div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Login') }}
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="text-center mt-3">
-                        <a href="{{ route('register') }}" class="btn btn-link text-primary">
-                            {{ __('Register here') }}
-                        </a>
+                    <!-- Email Field -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label"><strong>{{ __('Email') }}</strong></label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                               name="email" value="{{ old('email') }}" required autofocus placeholder="Enter your email...">
+                        <div class="invalid-feedback">Please enter a valid email.</div>
                     </div>
+
+                    <!-- Password Field with Visibility Toggle -->
+                    <div class="mb-3 position-relative">
+    <label for="password" class="form-label"><strong>{{ __('Password') }}</strong></label>
+    <div class="position-relative">
+        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+               name="password" required placeholder="Enter your password...">
+
+    </div>
+    <div class="invalid-feedback">Password is required.</div>
+</div>
+
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-danger">{{ __('Login') }}</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+    <span>Don't have an account?</span>
+    <br>
+    <a href="{{ route('register') }}" class="btn btn-link text-primary">
+        {{ __('Register here') }}
+    </a>
+</div>
                 </div>
             </div>
         </div>
@@ -50,9 +54,10 @@
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+
+
         // AJAX Form Submission
         $('#loginForm').submit(function(event) {
             event.preventDefault(); // Prevent default form submission

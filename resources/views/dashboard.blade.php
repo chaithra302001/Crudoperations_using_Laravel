@@ -1,133 +1,130 @@
 @extends('layouts.app')
-<h3>Welcome</h3>
 @section('content')
 <div class="container">
+<h3>Welcome, {{ Auth::user()->name }}!</h3>
     <div class="row justify-content-center">
         <div class="col-md-10 form-container">
             <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <span class="fw-bold fs-4">{{ __('JOB DETAILS') }}</span>
+            <div class="card-header d-flex justify-content-between">
+    <span class="fw-bold fs-4">{{ __('JOB DETAILS') }}</span>
 
-                    <!-- Display User Profile (Profile Icon, Name, Email, and Logout) -->
-                    <span class="d-flex align-items-center">
-                        @if(Auth::check())
-                            <div class="me-3">
-                                <i class="fa fa-user-circle" style="font-size: 2rem;"></i>
-                            </div>
-                        @endif
+    <!-- Display User Profile (Profile Icon, Name, Email, and Logout) -->
+    <span class="d-flex align-items-center">
+        @if(Auth::check())
+            <div class="me-3">
+                <i class="fa-solid fa-circle-user text-danger" style="font-size: 2rem;"></i>
+            </div>
+        @endif
 
-                        <div class="d-flex flex-column align-items-start">
-                            <div class="mb-2"><strong>{{ $user->name }}</strong></div>
-                            <div class="mb-2">{{ $user->email }}</div>
+        <div class="d-flex flex-column align-items-start">
+            <!--<span class="fw-semibold">{{ Auth::user()->name }}</span>-->
+            <span class="text-muted">{{ Auth::user()->email }}</span>
 
-                            <form action="{{ route('logout') }}" method="POST" class="ms-2">
-                                @csrf
-                                <button type="submit" class="btn btn-danger" style="font-size: 1rem;">Logout</button>
-                            </form>
+            <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+            </form>
+        </div>
+    </span>
+</div>
+
+<div class="d-flex justify-content-end me-5 mt-4 mb-3">
+    <button id="showFormBtn" class="btn btn-primary">Add Job</button>
+</div>
+
+    <div id="addJobForm" class="card shadow-lg mt-3" style="display: none;">
+        <div class="card-header bg-success text-white text-center">
+            <h3 class>JOB DETAILS</h3>
+        </div>
+        <div class="card-body">
+            <form id="jobForm" method="POST" enctype="multipart/form-data" data-parsley-validate>
+                <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="jobId" class="form-label">Job ID <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jobId" name="jobId" required>
                         </div>
-                    </span>
+                        <div class="col-md-6">
+                            <label for="jobTitle" class="form-label">Job Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jobTitle" name="jobTitle" required>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+    <label class="form-label">Job Level <span class="text-danger">*</span></label>
+    <div class="d-flex gap-3">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="jobLevel" value="Entry-level" required data-parsley-errors-container="#jobLevelError">
+            <label class="form-check-label">Entry-level</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="jobLevel" value="Mid-level">
+            <label class="form-check-label">Mid-level</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="jobLevel" value="Senior">
+            <label class="form-check-label">Senior</label>
+        </div>
+    </div>
+    <div id="jobLevelError" class="text-danger"></div> <!-- Error message container -->
+</div>
+
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <label for="companyName" class="form-label">Company Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="companyName" name="companyName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="companyLogo" class="form-label">Company Logo</label>
+                            <input type="file" class="form-control" id="companyLogo" name="companyLogo">
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <label for="jobLocation" class="form-label">Job Location <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jobLocation" name="jobLocation" required>
+                        </div>
+                        <div class="col-md-6">
+    <label for="jobType" class="form-label">Job Type <span class="text-danger">*</span></label>
+    <select class="form-control selectpicker" id="jobType" name="jobType" data-live-search="true"
+        required data-parsley-errors-container="#jobTypeError"
+        data-parsley-required-message="Please select a Job Type">
+        <option value="" disabled selected>Select Job Type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+        <option value="Internship">Internship</option>
+    </select>
+    <div id="jobTypeError" class="text-danger mt-1"></div> <!-- Error message container -->
+</div>
+
+                    </div>
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                        <label for="salaryRange" class="form-label">Salary</label>
+<input type="number" class="form-control" id="salaryRange" name="salaryRange"
+    data-parsley-type="digits"
+    data-parsley-trigger="keyup"
+    data-parsley-type-message="Salary must be a number"
+    data-parsley-min="5000"
+    data-parsley-min-message="Salary must be at least 5000">
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="vacancies" class="form-label">Number of Vacancies <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="vacancies" name="vacancies" required min="1">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label for="jobDate" class="form-label">Due Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="jobDate" name="jobDate" required>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">Add Job</button>
+                    </div>
+                </form>
                 </div>
-
-                <div class="card-body">
-                    <!-- Dashboard Form -->
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" id="addButton">ADD</button>
-                    </div>
-
-                    <!-- Hidden Add Job Form -->
-                    <div id="addJobForm" class="mt-4" style="display: none;">
-                    <form id="jobForm" method="POST" enctype="multipart/form-data" data-parsley-validate>
-    @csrf
-
-    <div class="mb-3">
-        <label for="jobId" class="form-label">Job ID <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="jobId" name="jobId" required data-parsley-trigger="keyup" data-parsley-required-message="Job ID is required">
     </div>
 
-    <div class="mb-3">
-        <label for="jobTitle" class="form-label">Job Title <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="jobTitle" name="jobTitle" required data-parsley-trigger="keyup" data-parsley-required-message="Job Title is required">
-    </div>
 
-    <div class="mb-3">
-        <label class="form-label">Job Level <span class="text-danger">*</span></label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="jobLevel" id="entryLevel" value="Entry-level" required data-parsley-errors-container="#jobLevelError">
-            <label class="form-check-label" for="entryLevel">Entry-level</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="jobLevel" id="midLevel" value="Mid-level" required>
-            <label class="form-check-label" for="midLevel">Mid-level</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="jobLevel" id="seniorLevel" value="Senior" required>
-            <label class="form-check-label" for="seniorLevel">Senior</label>
-        </div>
-        <div id="jobLevelError" class="text-danger"></div>
-    </div>
-
-    <div class="mb-3">
-        <label for="companyName" class="form-label">Company Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="companyName" name="companyName" required data-parsley-trigger="keyup" data-parsley-required-message="Company Name is required">
-    </div>
-
-    <div class="mb-3">
-    <label for="companyLogo" class="form-label">Company Logo (Optional)</label>
-    <input type="file" class="form-control" id="companyLogo" name="companyLogo"
-        accept="image/jpeg, image/png, image/jpg, image/gif"
-        data-parsley-max-file-size="2048"
-        data-parsley-filemimetypes="image/jpeg, image/png, image/jpg, image/gif"
-        data-parsley-errors-container="#companyLogoError">
-
-    <div id="companyLogoError" class="text-danger"></div>
-</div>
-
-
-    <div class="mb-3">
-        <label for="jobLocation" class="form-label">Job Location <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="jobLocation" name="jobLocation" required data-parsley-trigger="keyup" data-parsley-required-message="Job Location is required">
-    </div>
-
-    <div class="mb-3">
-        <label for="jobType" class="form-label">Job Type <span class="text-danger">*</span></label>
-        <select class="form-control selectpicker" id="jobType" name="jobType" data-live-search="true" required data-parsley-errors-container="#jobTypeError" data-parsley-required-message="Please select a Job Type">
-            <option value="" disabled selected>Select Job Type</option>
-            <option value="Full-Time">Full-Time</option>
-            <option value="Part-Time">Part-Time</option>
-            <option value="Contract">Contract</option>
-            <option value="Internship">Internship</option>
-        </select>
-        <div id="jobTypeError" class="text-danger"></div>
-    </div>
-
-    <div class="mb-3">
-        <label for="salaryRange" class="form-label">Salary</label>
-        <input type="text" class="form-control" id="salaryRange" name="salaryRange" data-parsley-type="digits" data-parsley-trigger="keyup" data-parsley-type-message="Salary must be a number">
-    </div>
-
-    <div class="mb-3">
-        <label for="vacancies" class="form-label">Number of Vacancies <span class="text-danger">*</span></label>
-        <input type="number" class="form-control" id="vacancies" name="vacancies" required min="1" data-parsley-trigger="keyup" data-parsley-required-message="Please enter the number of vacancies" data-parsley-min-message="Vacancies must be at least 1">
-    </div>
-
-    <div class="mb-3">
-    <label for="jobDate" class="form-label">Due Date <span class="text-danger">*</span></label>
-    <input type="text" class="form-control datepicker" id="jobDate" name="jobDate"
-        required
-        data-parsley-trigger="change"
-        data-parsley-required-message="Please select a due date"
-        data-parsley-errors-container="#jobDateError">
-    <div id="jobDateError" class="text-danger"></div>
-</div>
-
-
-
-    <div class="text-center">
-        <button type="submit" id="submitButton" class="btn btn-success">Submit</button>
-        <button type="button" id="updateButton" class="btn btn-warning" style="display: none;">Update Job</button>
-    </div>
-</form>
-                    </div>
 
                     <!-- Jobs Table -->
                     <div id="jobsList" class="mt-4" style="display: none;">
@@ -163,6 +160,9 @@
 
 $(document).ready(function () {
 
+    $("#showFormBtn").click(function () {
+        $("#addJobForm").toggle(); // Show/hide the form
+    });
 @if(session('success'))
     Swal.fire({
         icon: 'success',
